@@ -1,0 +1,11 @@
+[Unit]
+Description=Git WebHooks Server
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=REPLACE_BY_INSTALL
+
+[Install]
+WantedBy=multi-user.target
+Alias=git-webhooks-server.service

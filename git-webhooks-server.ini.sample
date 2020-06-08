@@ -1,0 +1,22 @@
+[server]
+address=0.0.0.0
+port=6789
+log_file=
+
+[github]
+verify=False
+secret=
+
+[gitee]
+verify=False
+secret=
+
+[custom]
+user_agent=my-git-hookshot
+verify=False
+secret=
+
+
+[sample/helloworld]
+cwd=/var/www/helloworld
+cmd=git fetch --all & git reset --hard origin/master & git pull
