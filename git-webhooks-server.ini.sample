@@ -1,7 +1,7 @@
 [server]
 address=0.0.0.0
 port=6789
-log_file=
+log_file=/var/log/git-webhooks-server.log
 
 [github]
 verify=False
@@ -11,12 +11,17 @@ secret=
 verify=False
 secret=
 
-[custom]
-user_agent=my-git-hookshot
+[gitlab]
 verify=False
 secret=
 
+[custom]
+header_name=X-Custom-Header
+header_value=Custom-Git-Hookshot
+name_path=project.path_with_namespace
+verify=False
+secret=
 
-[sample/helloworld]
-cwd=/var/www/helloworld
+[sample/repository]
+cwd=/path/to/your/repository
 cmd=git fetch --all & git reset --hard origin/master & git pull
