@@ -147,9 +147,10 @@ class RequestHandler(BaseHTTPRequestHandler):
 
         elif provider is Provider.Custom:
             # Custom
-            if config.getboolean('custom', 'verify'):
-                request_token = self.headers.get('X-Gitlab-Token')
-                secret = config.get('gitee', 'secret')
+            header_token = config.get('custom', 'header_token', fallback = 'X-Custom-Token')
+            if config.getboolean('custom', 'verify') and header_token in self.headers:
+                request_token = self.headers.get(header_token)
+                secret = config.get('custom', 'secret')
                 if request_token != secret:
                     logging.warning('Invalid Token')
                     self.send_error(401)

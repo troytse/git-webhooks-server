@@ -18,6 +18,7 @@ secret=
 [custom]
 header_name=X-Custom-Header
 header_value=Custom-Git-Hookshot
+header_token=X-Custom-Token
 name_path=project.path_with_namespace
 verify=False
 secret=
