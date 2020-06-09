@@ -39,6 +39,11 @@ cwd=/path/to/your/repository
 cmd=git fetch --all & git reset --hard origin/master & git pull
 ```
 
+- Restart the service
+```shell
+systemctl restart git-webhooks-server
+```
+
 - Add webhook in the repository settings.
   - Github:
 
@@ -51,6 +56,7 @@ cmd=git fetch --all & git reset --hard origin/master & git pull
   ![gitee-success](doc/gitee-success.png)
 
   - Custom: **TODO**
+
 
 #### Configuration
 

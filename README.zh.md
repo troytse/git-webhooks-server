@@ -39,6 +39,12 @@ cwd=/path/to/your/repository
 cmd=git fetch --all & git reset --hard origin/master & git pull
 ```
 
+- 重新启动服务
+```shell
+systemctl restart git-webhooks-server
+```
+
+
 - 在你的仓库设置中添加 webhook:
   - Github:
 
