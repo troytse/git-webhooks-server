@@ -4,7 +4,7 @@
 
 #### Introduction
 - This git webhooks server is implemented with Python 3.
-- Supports Github, Gitee, and custom repositories.
+- Supports Github, Gitee, Gitlab, and custom repositories.
 - Support custom working directory and command for different repositories.
 - Support to install as the Systemd service.
 
@@ -55,8 +55,12 @@ systemctl restart git-webhooks-server
   ![gitee](doc/gitee.png)
   ![gitee-success](doc/gitee-success.png)
 
-  - Custom: **TODO**
+  - Gitlab:
 
+  ![gitlab](doc/gitlab.png)
+  ![gitlab-success](doc/gitlab-success.png)
+
+  - Custom: **TODO**
 
 #### Configuration
 
@@ -74,6 +78,17 @@ verify=True
 secret=123456
 
 [gitee]
+verify=True
+secret=123456
+
+[gitlab]
+verify=True
+secret=123456
+
+[custom]
+header_name=User-Agent
+header_value=Custom-Git-Hookshot
+name_path=project.path_with_namespace
 verify=True
 secret=123456
 

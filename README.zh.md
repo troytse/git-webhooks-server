@@ -4,7 +4,7 @@
 
 #### 简介
 - 使用 Python 3 实现的 git webhooks 服务.
-- 支持 Github、Gitee 和自定义仓库.
+- 支持 Github、Gitee、Gitlab 及自定义仓库.
 - 支持为不同的仓库指定工作目录和命令.
 - 支持安装为 Systemd 服务.
 
@@ -56,6 +56,11 @@ systemctl restart git-webhooks-server
   ![gitee](doc/gitee.png)
   ![gitee-success](doc/gitee-success.png)
 
+  - Gitlab:
+
+  ![gitlab](doc/gitlab.png)
+  ![gitlab-success](doc/gitlab-success.png)
+
   - 自定义: **TODO**
 
 #### 配置
@@ -74,6 +79,17 @@ verify=True
 secret=123456
 
 [gitee]
+verify=True
+secret=123456
+
+[gitlab]
+verify=True
+secret=123456
+
+[custom]
+header_name=User-Agent
+header_value=Custom-Git-Hookshot
+name_path=project.path_with_namespace
 verify=True
 secret=123456
 
