@@ -1,17 +1,17 @@
-# The Git WebHooks Server
+# Git WebHooks 服务
 
 [README](README.md) | [中文说明](README.zh.md)
 
-#### Introduction
-- This git webhooks server is implemented with Python 3.
-- Supports Github, Gitee, and custom repositories.
-- Support custom working directory and command for different repositories.
-- Support to install as the Systemd service.
+#### 简介
+- 使用 Python 3 实现的 git webhooks 服务.
+- 支持 Github、Gitee 和自定义仓库.
+- 支持为不同的仓库指定工作目录和命令.
+- 支持安装为 Systemd 服务.
 
-#### Installation
+#### 安装
 
-- Clone or download this repository to any directory.
-- Run `./install.sh` to install.
+- 克隆到任意目录.
+- 执行 `./install.sh` 进行安装.
 ```shell
 git clone https://github.com/troytse/git-webhooks-server.git
 cd git-webhooks-server
@@ -19,7 +19,7 @@ cd git-webhooks-server
 ```
 ![install](doc/install.png)
 
-#### Uninstallation
+#### 卸载
 
 ```shell
 cd git-webhooks-server
@@ -27,19 +27,19 @@ cd git-webhooks-server
 ```
 ![uninstall](doc/uninstall.png)
 
-#### Usage
+#### 使用
 
-- Add the following settings to your configuration file:
+- 在配置文件中添加仓库信息:
 ```ini
-# match the full name of your repository
+# 匹配你的仓库全名
 [your_name/repository]
-# working directory
+# 工作目录
 cwd=/path/to/your/repository
-# the command executes on received the notification.
+# 收到推送后执行的命令
 cmd=git fetch --all & git reset --hard origin/master & git pull
 ```
 
-- Add webhook in the repository settings.
+- 在你的仓库设置中添加 webhook:
   - Github:
 
   ![github](doc/github.png)
@@ -50,12 +50,12 @@ cmd=git fetch --all & git reset --hard origin/master & git pull
   ![gitee](doc/gitee.png)
   ![gitee-success](doc/gitee-success.png)
 
-  - Custom: **TODO**
+  - 自定义: **TODO**
 
-#### Configuration
+#### 配置
 
-- Default configuration file: `/usr/local/etc/git-webhooks-server.ini`.
-- You can modify it after the installation.
+- 默认配置文件位置: `/usr/local/etc/git-webhooks-server.ini`.
+- 你可以在安装后修改它.
 
 ```ini
 [server]
