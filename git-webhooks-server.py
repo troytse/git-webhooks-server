@@ -40,7 +40,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         elif 'custom' in config:
             header_name = config.get('custom', 'header_name')
             header_value = config.get('custom', 'header_value')
-            if header_name in self.headers and self.headers.get(header_name).lower().startswith(header_value):
+            if header_name in self.headers and self.headers.get(header_name).startswith(header_value):
                 return Provider.Custom
         # Unkown provider
         return None
