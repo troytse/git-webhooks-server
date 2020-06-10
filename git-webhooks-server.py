@@ -179,11 +179,14 @@ class RequestHandler(BaseHTTPRequestHandler):
                     self.send_error(401)
                     return
             # Get repository name
-            path = config.get('custom', 'name_path').split('.')
+            path = config.get('custom', 'identifier_path').split('.')
             value = post_data
             for step in path:
                 if step in value:
                     value = value[step]
+                else:
+                    value = None
+                    break
             if isinstance(value, str):
                 repo_name = value
         else:
