@@ -1,9 +1,9 @@
-# The Git WebHooks Server
+# Simple Git Webhooks Server
 
 [README](README.md) | [中文说明](README.zh.md)
 
 #### Introduction
-- This git webhooks server is implemented with Python 3.
+- Implemented with Python 3.
 - Supports Github, Gitee, Gitlab, and custom repositories.
 - Support custom working directory and command for different repositories.
 - Support to install as the Systemd service.
@@ -78,12 +78,12 @@ systemctl restart git-webhooks-server
   - Handler accepts POST data types with `application/json` or `application/x-www-form-urlencoded` (you can refer to the guide about request in [Github](https://developer.github.com/webhooks/event-payloads/#example-delivery) / [Gitee](https://gitee.com/help/articles/4186) / [Gitlab](https://gitlab.com/help/user/project/integrations/webhooks#push-events)), data is like this:
   ```json
   {
-  //...
+  // ...
     "project": {
       "path_with_namespace": "your_name/repository"
-      //...
+      // ...
     }
-  //...
+  // ...
   }
   ```
   ![custom-header](doc/custom-header.png)

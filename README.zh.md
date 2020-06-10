@@ -1,9 +1,9 @@
-# Git WebHooks 服务
+# 简易 Git WebHooks 服务
 
 [README](README.md) | [中文说明](README.zh.md)
 
 #### 简介
-- 使用 Python 3 实现的 git webhooks 服务.
+- 使用 Python 3 实现的.
 - 支持 Github、Gitee、Gitlab 及自定义仓库.
 - 支持为不同的仓库指定工作目录和命令.
 - 支持安装为 Systemd 服务.
