@@ -4,14 +4,17 @@ port=6789
 log_file=/var/log/git-webhooks-server.log
 
 [github]
+handle_events=push
 verify=False
 secret=
 
 [gitee]
+handle_events=push
 verify=False
 secret=
 
 [gitlab]
+handle_events=push
 verify=False
 secret=
 
@@ -19,7 +22,9 @@ secret=
 header_name=X-Custom-Header
 header_value=Custom-Git-Hookshot
 header_token=X-Custom-Token
+header_event=X-Custom-Event
 name_path=project.path_with_namespace
+handle_events=push
 verify=False
 secret=
 

@@ -25,25 +25,28 @@ class Provider(Enum):
 class RequestHandler(BaseHTTPRequestHandler):
 
     def __parse_provider(self):
-        '''parse the provider type'''
+        '''parse the provider type and event'''
         global config
         # Github
         if 'X-GitHub-Event' in self.headers:
-            return Provider.Github
+            return Provider.Github, self.headers.get('X-GitHub-Event')
         # Gitee
         elif 'X-Gitee-Event' in self.headers:
-            return Provider.Gitee
+            return Provider.Gitee, self.headers.get('X-Gitee-Event')
         # Gitlab
         elif 'X-Gitlab-Event' in self.headers:
-            return Provider.Gitlab
+            return Provider.Gitlab, self.headers.get('X-Gitlab-Event')
         # Custom
         elif 'custom' in config:
             header_name = config.get('custom', 'header_name')
             header_value = config.get('custom', 'header_value')
+            header_event = config.get('custom', 'header_event')
             if header_name in self.headers and self.headers.get(header_name).startswith(header_value):
-                return Provider.Custom
-        # Unkown provider
-        return None
+                if header_event in self.headers:
+                    return Provider.Custom, self.headers.get(header_event)
+                return Provider.Custom, None
+        # Unkown provider and event
+        return None, None
 
     def __parse_data(self):
         '''parse the request content'''
@@ -75,7 +78,7 @@ class RequestHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         '''handling the POST requests.'''
         global config
-        provider = self.__parse_provider()
+        provider, event = self.__parse_provider()
         payload, post_data = self.__parse_data()
         repo_name = None
 
@@ -86,6 +89,11 @@ class RequestHandler(BaseHTTPRequestHandler):
 
         if provider is Provider.Github:
             # Github
+            handle_events = str(config.get('github', 'handle_events')).split(',')
+            if len(handle_events) > 0 and event not in handle_events:
+                logging.warning('The event has not set to handle. ({})'.format(event))
+                self.send_error(406)
+                return
             if config.getboolean('github', 'verify'):
                 # Signature calculation and verification
                 request_signature = self.headers.get('X-Hub-Signature')
@@ -104,6 +112,11 @@ class RequestHandler(BaseHTTPRequestHandler):
 
         elif provider is Provider.Gitee:
             # Gitee
+            handle_events = str(config.get('gitee', 'handle_events')).split(',')
+            if len(handle_events) > 0 and event not in handle_events:
+                logging.warning('The event has not set to handle. ({})'.format(event))
+                self.send_error(406)
+                return
             if config.getboolean('gitee', 'verify'):
                 # Signature calculation and verification
                 request_signature = self.headers.get('X-Gitee-Token')
@@ -134,6 +147,11 @@ class RequestHandler(BaseHTTPRequestHandler):
 
         elif provider is Provider.Gitlab:
             # Gitlab
+            handle_events = str(config.get('gitlab', 'handle_events')).split(',')
+            if len(handle_events) > 0 and event not in handle_events:
+                logging.warning('The event has not set to handle. ({})'.format(event))
+                self.send_error(406)
+                return
             if config.getboolean('gitlab', 'verify'):
                 request_token = self.headers.get('X-Gitlab-Token')
                 secret = config.get('gitee', 'secret')
@@ -147,6 +165,11 @@ class RequestHandler(BaseHTTPRequestHandler):
 
         elif provider is Provider.Custom:
             # Custom
+            handle_events = str(config.get('custom', 'handle_events')).split(',')
+            if len(handle_events) > 0 and event not in handle_events:
+                logging.warning('The event has not set to handle. ({})'.format(event))
+                self.send_error(406)
+                return
             header_token = config.get('custom', 'header_token', fallback = 'X-Custom-Token')
             if config.getboolean('custom', 'verify') and header_token in self.headers:
                 request_token = self.headers.get(header_token)
@@ -173,9 +196,12 @@ class RequestHandler(BaseHTTPRequestHandler):
                 cwd = config.get(repo_name, 'cwd')
                 cmd = config.get(repo_name, 'cmd')
                 logging.info('[{}] Execute: {}'.format(repo_name, cmd))
-                process = subprocess.Popen(cmd, cwd = cwd, shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-                for line in process.stdout:
-                    logging.info('[{}] Output: {}'.format(repo_name, line.rstrip()))
+                try:
+                    process = subprocess.Popen(cmd, cwd = cwd, shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+                    for line in process.stdout:
+                        logging.info('[{}] Output: {}'.format(repo_name, line.rstrip()))
+                except Exception as ex:
+                    logging.warning('[{}] Execution failed: {}'.format(repo_name, ex))
             else:
                 logging.warning('No repository setting: "{}".'.format(repo_name))
             # successful
