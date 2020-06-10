@@ -78,12 +78,9 @@ systemctl restart git-webhooks-server
   - Handler accepts POST data types with `application/json` or `application/x-www-form-urlencoded` (you can refer to the guide about request in [Github](https://developer.github.com/webhooks/event-payloads/#example-delivery) / [Gitee](https://gitee.com/help/articles/4186) / [Gitlab](https://gitlab.com/help/user/project/integrations/webhooks#push-events)), data is like this:
   ```json
   {
-  // ...
     "project": {
       "path_with_namespace": "your_name/repository"
-      // ...
     }
-  // ...
   }
   ```
   ![custom-header](doc/custom-header.png)

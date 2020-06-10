@@ -83,12 +83,9 @@ systemctl restart git-webhooks-server
   - 处理器接受 `application/json` 或 `application/x-www-form-urlencoded` 格式的请求 (你可以参考 [Github](https://developer.github.com/webhooks/event-payloads/#example-delivery) / [Gitee](https://gitee.com/help/articles/4186) / [Gitlab](https://gitlab.com/help/user/project/integrations/webhooks#push-events) 中关于请求的指引), 数据格式像这样:
   ```json
   {
-  //...
     "project": {
       "path_with_namespace": "your_name/repository"
-      //...
     }
-  //...
   }
   ```
   ![custom-header](doc/custom-header.png)
