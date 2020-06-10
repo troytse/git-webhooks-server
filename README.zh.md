@@ -2,13 +2,24 @@
 
 [README](README.md) | [中文说明](README.zh.md)
 
-#### 简介
+# 目录
+- [简介](#简介)
+- [安装](#安装)
+- [卸载](#卸载)
+- [使用](#使用)
+  - [Github:](#github)
+  - [Gitee:](#gitee)
+  - [Gitlab:](#gitlab)
+  - [自定义:](#自定义)
+- [配置](#配置)
+
+## 简介
 - 使用 Python 3 实现的.
 - 支持 Github、Gitee、Gitlab 及自定义仓库.
 - 支持为不同的仓库指定工作目录和命令.
 - 支持安装为 Systemd 服务.
 
-#### 安装
+## 安装
 
 - 克隆到任意目录.
 - 执行 `./install.sh` 进行安装.
@@ -19,7 +30,7 @@ cd git-webhooks-server
 ```
 ![install](doc/install.png)
 
-#### 卸载
+## 卸载
 
 ```shell
 cd git-webhooks-server
@@ -27,7 +38,7 @@ cd git-webhooks-server
 ```
 ![uninstall](doc/uninstall.png)
 
-#### 使用
+## 使用
 
 - 在配置文件中添加仓库信息:
 ```ini
@@ -45,54 +56,49 @@ systemctl restart git-webhooks-server
 ```
 
 - 在你的仓库设置中添加 webhook:
-  - **Github**:
+### Github:
 
-  ![github](doc/github.png)
-  ![github-success](doc/github-success.png)
+![github](doc/github.png)
+![github-success](doc/github-success.png)
 
-  - **Gitee**:
+### Gitee:
 
-  ![gitee](doc/gitee.png)
-  ![gitee-success](doc/gitee-success.png)
+![gitee](doc/gitee.png)
+![gitee-success](doc/gitee-success.png)
 
-  - **Gitlab**:
+### Gitlab:
 
-  ![gitlab](doc/gitlab.png)
-  ![gitlab-success](doc/gitlab-success.png)
+![gitlab](doc/gitlab.png)
+![gitlab-success](doc/gitlab-success.png)
 
-  - **Custom**: 
-
-  ![gitlab](doc/gitlab.png)
-  ![gitlab-success](doc/gitlab-success.png)
-
-  - **自定义**: 
-  - 对于自定义 webhooks 来源, 你需要像下面这样调整你的配置文件:
-  ```ini
-  [custom]
-  # 用于识别来源
-  header_name=X-Custom-Header
-  header_value=Custom-Git-Hookshot
-  # 用于匹配 secret 的 header
-  header_token=X-Custom-Token
-  # 仓库名称在JSON请求数据中的位置
-  name_path=project.path_with_namespace
-  # 仅支持文本Token的认证
-  verify=True
-  secret=123456
-  ```
-  - 处理器接受 `application/json` 或 `application/x-www-form-urlencoded` 格式的请求 (你可以参考 [Github](https://developer.github.com/webhooks/event-payloads/#example-delivery) / [Gitee](https://gitee.com/help/articles/4186) / [Gitlab](https://gitlab.com/help/user/project/integrations/webhooks#push-events) 中关于请求的指引), 数据格式像这样:
-  ```json
-  {
-    "project": {
-      "path_with_namespace": "your_name/repository"
-    }
+### 自定义: 
+- 对于自定义 webhooks 来源, 你需要像下面这样调整你的配置文件:
+```ini
+[custom]
+# 用于识别来源
+header_name=X-Custom-Header
+header_value=Custom-Git-Hookshot
+# 用于匹配 secret 的 header
+header_token=X-Custom-Token
+# 仓库名称在JSON请求数据中的位置
+name_path=project.path_with_namespace
+# 仅支持文本Token的认证
+verify=True
+secret=123456
+```
+- 处理器接受 `application/json` 或 `application/x-www-form-urlencoded` 格式的请求 (你可以参考 [Github](https://developer.github.com/webhooks/event-payloads/#example-delivery) / [Gitee](https://gitee.com/help/articles/4186) / [Gitlab](https://gitlab.com/help/user/project/integrations/webhooks#push-events) 中关于请求的指引), 数据格式像这样:
+```json
+{
+  "project": {
+    "path_with_namespace": "your_name/repository"
   }
-  ```
-  ![custom-header](doc/custom-header.png)
-  ![custom-body](doc/custom-body.png)
-  ![custom-response](doc/custom-response.png)
+}
+```
+![custom-header](doc/custom-header.png)
+![custom-body](doc/custom-body.png)
+![custom-response](doc/custom-response.png)
 
-#### 配置
+## 配置
 
 - 默认配置文件位置: `/usr/local/etc/git-webhooks-server.ini`.
 - 你可以在安装后修改它.
