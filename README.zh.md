@@ -81,7 +81,7 @@ header_value=Custom-Git-Hookshot
 # 用于匹配 secret 的 header
 header_token=X-Custom-Token
 # 仓库名称在JSON请求数据中的位置
-name_path=project.path_with_namespace
+identifier_path=project.path_with_namespace
 # 仅支持文本Token的认证
 verify=True
 secret=123456
@@ -126,7 +126,7 @@ secret=123456
 header_name=X-Custom-Header
 header_value=Custom-Git-Hookshot
 header_token=X-Custom-Token
-name_path=project.path_with_namespace
+identifier_path=project.path_with_namespace
 verify=True
 secret=123456
 

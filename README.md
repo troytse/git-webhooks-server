@@ -81,7 +81,7 @@ header_value=Custom-Git-Hookshot
 # used to match the secret
 header_token=X-Custom-Token
 # the path of the repository name in the json request data.
-name_path=project.path_with_namespace
+identifier_path=project.path_with_namespace
 # only supports text token verification
 verify=True
 secret=123456
@@ -126,7 +126,7 @@ secret=123456
 header_name=X-Custom-Header
 header_value=Custom-Git-Hookshot
 header_token=X-Custom-Token
-name_path=project.path_with_namespace
+identifier_path=project.path_with_namespace
 verify=True
 secret=123456
 
