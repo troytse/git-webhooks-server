@@ -239,5 +239,8 @@ def main(argv):
     server = HTTPServer((address, port), RequestHandler)
     server.serve_forever()
 
+# global config
+config = None
+
 if __name__ == '__main__':
     main(sys.argv[1:])
