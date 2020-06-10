@@ -237,15 +237,15 @@ def main(argv):
             conf_file = value
 
     if not path.exists(conf_file):
-        print('Missing configuration file')
+        print('Missing configuration file: {}'.format(conf_file))
         sys.exit(1)
 
     # load config
     try:
         config = configparser.ConfigParser()
         config.read(conf_file)
-    except:
-        print('Invalid configuration file')
+    except Exception as ex:
+        print('Invalid configuration file: {}'.format(ex))
         sys.exit(1)
 
     # init logging
@@ -254,19 +254,32 @@ def main(argv):
         try:
             with open(log_file, 'w') as f:
                 f.close()
-        except:
-            print('Can not create the log file: {}'.format(log_file))
+        except Exception as ex:
+            print('Can not create the log file: {}'.format(ex))
         if not path.exists(log_file):
             log_file = None
     logging.basicConfig(level = logging.DEBUG, filename = log_file, format = '%(asctime)s %(message)s', datefmt = '%Y-%m-%d %H:%M:%S')
-    logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
+    if (log_file is not None):
+        logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
 
     # start server
-    address = config.get('server', 'address', fallback = '0.0.0.0')
-    port = config.getint('server', 'port', fallback = 6789)
-    logging.info('Serving on {}:{}'.format(address, port))
-    server = HTTPServer((address, port), RequestHandler)
-    server.serve_forever()
+    try:
+        address = config.get('server', 'address', fallback = '0.0.0.0')
+        port = config.getint('server', 'port', fallback = 6789)
+        server = HTTPServer((address, port), RequestHandler)
+        # SSL
+        if config.getboolean('ssl', 'enable'):
+            import ssl
+            key_file = config.get('ssl', 'key_file')
+            cert_file = config.get('ssl', 'cert_file')
+            server.socket = ssl.wrap_socket(server.socket, keyfile = key_file, certfile = cert_file, server_side = True)
+            logging.info('Serving on {} port {} with SSL...'.format(address, port))
+        else:
+            logging.info('Serving on {} port {} ...'.format(address, port))
+        server.serve_forever()
+    except Exception as ex:
+        logging.error('Fail to start the service: {}'.format(ex))
+        sys.exit(1)
 
 # global config
 config = None

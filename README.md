@@ -110,6 +110,11 @@ address=0.0.0.0
 port=6789
 log_file=/var/log/git-webhooks-server.log
 
+[ssl]
+enable=False
+key_file=/path/to/key.pem
+cert_file=/path/to/cert.pem
+
 [github]
 verify=True
 secret=123456
